@@ -1,6 +1,7 @@
 import React from "react";
 import {StyleSheet, TextInput, View} from 'react-native';
-import RNPickerSelect from 'react-native-picker-select'; //import del select de: https://www.npmjs.com/package/react-native-picker-select
+
+import RNPickerSelect from 'react-native-picker-select';
 
 import colors from "../utils/colors";
 
@@ -21,16 +22,20 @@ export default function Form() {
                     style={[styles.input, styles.inputPercentage]} /**Se envuelven los estilos en un array para poder poner más de 1 estilo */
                     />
             </View>
-
+            
             <RNPickerSelect
-            onValueChange={(value) => console.log(value)}
-            items={[
-                { label: 'Football', value: 'football' },
-                { label: 'Baseball', value: 'baseball' },
-                { label: 'Hockey', value: 'hockey' },
-            ]}
+            /**Le damos la constante entera porqué decidirá si poner el estilo de IOS o Android */
+                style={pickerSelectStyles}
+                onValueChange={(value) => console.log(value)}
+                items={[
+                    { label: '3 meses', value: 3 },
+                    { label: '6 meses', value: 6 },
+                    { label: '12 meses', value: 12 },
+                    { label: '24 meses', value: 24 },
+                ]}
+                useNativeAndroidPickerStyle={false} /**Si no se pone esto no cambia el color de fondo en el picker de Android */
             />
-           
+                      
         </View>
     )
 }
@@ -38,7 +43,7 @@ export default function Form() {
 const styles = StyleSheet.create({
     viewForm: {
         position: "absolute",
-        bottom: -90,
+        bottom: 0,
         width:"85%",
         paddingHorizontal: 50,
         backgroundColor: colors.PRIMARY_COLOR_DARK,
@@ -69,6 +74,32 @@ const styles = StyleSheet.create({
         width: "40%",
         marginLeft: 5
     }
+});
 
-
-})
+//Constante para dar un estilo dependiendo de si es IOS o Android. (Los nombres de inputIOS e inputAndroid tienen q ser así)
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: "grey",
+        borderRadius: 4,
+        color: "black",
+        paddingRight: 20,
+        backgroundColor: "#fff",
+        marginLeft: -5,
+        marginRight: -5.
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: 'grey',
+        borderRadius: 8,
+        color: 'black',
+        paddingRight: 30,
+        backgroundColor: "#fff",
+    }
+});
