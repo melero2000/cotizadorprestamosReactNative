@@ -5,7 +5,11 @@ import RNPickerSelect from 'react-native-picker-select';
 
 import colors from "../utils/colors";
 
-export default function Form() {
+export default function Form(props) {
+
+    //Destructuring - nos llegan funciones que actualizan el estado de las constantes de app.js 
+    const {setCapital, setInterest, setMonths} = props;
+
     return (
         <View style={styles.viewForm}>
 
@@ -14,19 +18,30 @@ export default function Form() {
                     placeholder="Cantidad a pedir" 
                     keyboardType="numeric" /**para cambiar el tipo de teclado que se despliega */
                     style={styles.input}
+                    //e es el evento y e.nativeEvent.text nos da el valor del textInput
+                    //setCapital es la función recibida por props del componente padre
+                    onChange={(e) => setCapital(e.nativeEvent.text)} /**Se envían los datos del componente hijo(este)al padre (app.js) en el cual se actualizan las constantes */
                     />
 
                 <TextInput 
                     placeholder="Interés %" 
                     keyboardType="numeric"
                     style={[styles.input, styles.inputPercentage]} /**Se envuelven los estilos en un array para poder poner más de 1 estilo */
+                    onChange={(e) => setInterest(e.nativeEvent.text)} /**Se envían los datos del componente hijo(este)al padre (app.js) en el cual se actualizan las constantes */
                     />
             </View>
             
             <RNPickerSelect
             /**Le damos la constante entera porqué decidirá si poner el estilo de IOS o Android */
                 style={pickerSelectStyles}
-                onValueChange={(value) => console.log(value)}
+                onValueChange={(value) => setMonths(value)}
+               //sería la opcíon por defecto que aparece 
+                placeholder={
+                    {
+                        label: 'Selecciona los plazos...',
+                        value: ''
+                    }
+                }
                 items={[
                     { label: '3 meses', value: 3 },
                     { label: '6 meses', value: 6 },
